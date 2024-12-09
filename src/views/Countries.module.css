@@ -1,0 +1,12 @@
+div.spinnerContainer {
+    display: "flex" !important;
+    flex-direction: "column" !important;
+    row-gap: "2rem" !important;
+    justify-content: "center" !important;
+    align-items: "center";
+    height: "100vh";
+}
+
+.spinnerText {
+    font-size: "64px";
+}
