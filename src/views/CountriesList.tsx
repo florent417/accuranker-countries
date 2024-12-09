@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { GET_COUNTRIES } from "../gql/getCountries";
 import { Country } from "../models/Country";
 import {
+  Comparators,
   CriteriaWithPagination,
   EuiBasicTable,
   EuiBasicTableColumn,
@@ -31,7 +32,7 @@ const columns: Array<EuiBasicTableColumn<Country>> = [
     field: "continent.name",
     name: "Continent",
     truncateText: true,
-    sortable: false,
+    sortable: true,
   },
   {
     field: "emoji",
@@ -84,13 +85,9 @@ export const CountriesList = () => {
 
     const dataToSort = filter ? filteredData : [...data.countries];
 
-    return dataToSort!.sort((a, b) => {
-      const comparison =
-        a[sortField as keyof Country]
-          ?.toString()
-          .localeCompare(b[sortField as keyof Country]?.toString()) || 0;
-      return sortDirection === "asc" ? comparison : -comparison;
-    });
+    return dataToSort!.sort(
+      Comparators.property(sortField, Comparators.default(sortDirection))
+    );
   }, [data, sortField, sortDirection, filter]);
 
   const sorting: EuiTableSortingType<Country> = {
